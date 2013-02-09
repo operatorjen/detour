@@ -24,7 +24,7 @@ define(['jquery', 'dither'],
 
     if (dayDiff <= 0) {
       if (diff < 60) {
-        return ' less than 1 minute ago';
+        return 'less than 1 minute ago';
       } else if (diff < 3600) {
         return Math.floor(diff / 60) + ' minutes ago';
       } else {
@@ -151,7 +151,7 @@ define(['jquery', 'dither'],
       body.find('#viewing-overlay').fadeOut();
       body.addClass('fixed');
       self.messageDetail.find('p span').text(data.message.text);
-      self.messageDetail.find('p').append('<time>Sent' +
+      self.messageDetail.find('p').append('<time>Sent ' +
         dateDisplay(data.message.created) + '</time>');
       self.messageDetail.fadeIn();
 
