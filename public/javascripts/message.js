@@ -24,7 +24,7 @@ define(['jquery', 'dither'],
 
     if (dayDiff <= 0) {
       if (diff < 60) {
-        return ' less than 1 minute ago';
+        return 'less than 1 minute ago';
       } else if (diff < 3600) {
         return Math.floor(diff / 60) + ' minutes ago';
       } else {
@@ -151,8 +151,8 @@ define(['jquery', 'dither'],
       body.find('#viewing-overlay').fadeOut();
       body.addClass('fixed');
       self.messageDetail.find('p span').text(data.message.text);
-      self.messageDetail.find('p').append('<time>Sent' +
-        dateDisplay(data.message.created) + '</time>');
+      self.messageDetail.find('p time').append('Sent ' +
+          dateDisplay(data.message.created));
       self.messageDetail.fadeIn();
 
       countdownInterval = setInterval(function () {
@@ -176,6 +176,7 @@ define(['jquery', 'dither'],
     this.currentContact = null;
     this.messageDetail = $('#message-detail');
     this.messageDetail.find('p span').empty();
+    this.messageDetail.find('p time').empty();
     this.messageDetail.removeAttr('data-email');
     this.messageDetail.find('.countdown').text('10');
     this.messageDetail.hide();
