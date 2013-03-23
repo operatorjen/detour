@@ -47,6 +47,7 @@ define(['jquery', 'settings'],
 
   Message.prototype.getAll = function (nunjucks, callback) {
     var self = this;
+    this.status = $('#status');
 
     $.get('/' + API_VERSION + '/messages/unread', function (resp) {
       for (var i = 0; i < resp.data.length; i ++) {

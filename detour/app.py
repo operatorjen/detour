@@ -32,7 +32,7 @@ def create_app(config):
 
     @app.before_request
     def load_current_user():
-        g.user = (User.query.filter_by(email=session['email']).first()
+        g.user = (User.query.filter_by(email=session.get('email')).first()
                   if 'email' in session else None)
 
     @app.route('/', methods=['GET'])
