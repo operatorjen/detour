@@ -179,6 +179,9 @@ define(['jquery', 'settings'],
       body.find('.overlay').fadeOut();
 
       countdownInterval = setInterval(function () {
+        if (seconds < 0) {
+          seconds = 0;
+        }
         self.messageDetail.find('.countdown').text(-- seconds);
       }, 1000);
 
