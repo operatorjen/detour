@@ -85,10 +85,12 @@ define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', '
   });
 
   // for now ... O_O
+  /*
   var isInvalidFileInput = function () {
     return nav.match(/Mobile/i) && ((nav.match(/Firefox/i) &&
       nav.match(/Mobile/i) && !nav.match(/Android/i)));
   };
+  */
 
   body.on('keyup', 'textarea', function (ev) {
     checkCharLimit($(this).val());
@@ -248,9 +250,11 @@ define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', '
     }
   });
 
+  /*
   if (isInvalidFileInput()) {
     body.addClass('file-disabled');
   }
+  */
 
   body.on('change', 'input[type="file"]', function (ev) {
     var img = $('#preview-img');
