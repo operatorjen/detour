@@ -114,12 +114,12 @@ define(['jquery', 'settings'],
         .text('Sent!')
         .addClass('on');
 
-      settings.statusTimer(self.status);
-
-      self.form
-        .addClass('hidden');
-      body.removeClass('fixed');
-      body.find('.overlay').fadeOut();
+      settings.statusTimer(self.status, function () {
+        self.form
+          .addClass('hidden');
+        body.removeClass('fixed');
+        body.find('.overlay').fadeOut();
+      });
 
     }).fail(function (data) {
       body.find('.overlay').fadeOut();

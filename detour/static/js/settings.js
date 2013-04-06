@@ -3,9 +3,16 @@ define(['jquery'],
 
   'use strict';
 
-  var statusTimer = function (status) {
+  var statusTimer = function (status, callback) {
     setTimeout(function () {
       status.removeClass('on');
+
+      if (callback) {
+        self.form
+          .addClass('hidden');
+        body.removeClass('fixed');
+        body.find('.overlay').fadeOut();
+      }
     }, 2200); // milliseconds
   };
 
