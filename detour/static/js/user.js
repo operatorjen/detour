@@ -37,7 +37,7 @@ define(['jquery', 'settings'],
       localStorage.removeItem(CONTACT_KEY);
       self.getContacts(nunjucks, 'edit_contacts');
 
-    }).error(function (data) {
+    }).fail(function (data) {
       self.status
         .addClass('error')
         .text(JSON.parse(data.responseText).meta.message)
@@ -85,7 +85,7 @@ define(['jquery', 'settings'],
         localStorage.setItem(CONTACT_KEY, JSON.stringify(resp.data));
         contactWrapper.removeClass('hidden');
 
-      }).error(function (resp) {
+      }).fail(function (resp) {
         self.status
           .addClass('error')
           .text(resp.meta.message)
@@ -125,7 +125,7 @@ define(['jquery', 'settings'],
       );
 
       profileWrapper.removeClass('hidden');
-    }).error(function (resp) {
+    }).fail(function (resp) {
       self.status
         .addClass('error')
         .text(resp.meta.message)
@@ -162,7 +162,7 @@ define(['jquery', 'settings'],
 
       settings.statusTimer(self.status);
 
-    }).error(function (resp) {
+    }).fail(function (resp) {
       self.status
         .addClass('error')
         .text(resp.meta.message)

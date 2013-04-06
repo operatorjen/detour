@@ -67,13 +67,15 @@ define(['jquery', 'settings'],
     }).done(function () {
       body.find('.overlay').fadeOut();
 
-    }).error(function (data) {
+    }).fail(function (data) {
       self.status
         .addClass('error')
         .text(JSON.parse(data.responseText).meta.message)
         .addClass('on');
 
       settings.statusTimer(self.status);
+      body.removeClass('fixed');
+      body.find('.overlay').fadeOut();
     });
   };
 
@@ -94,10 +96,7 @@ define(['jquery', 'settings'],
     $.ajax({
       url: '/' + API_VERSION + '/message?ts=' + ts,
       data: fd,
-      type: 'POST',
-      processData: false,
-      contentType: false,
-      cache: false
+      type: 'POST'
 
     }).done(function (data) {
 
@@ -105,11 +104,8 @@ define(['jquery', 'settings'],
         .find('#current-contact, #contacts')
         .empty();
       self.form
-        .find('input[type="file"], input[name="email"], textarea, input[type="text"], #image-width, #image-height')
+        .find('input[type="file"], input[name="email"], textarea, input[type="text"]')
         .val('');
-      body.find('#preview-img')
-        .attr('src', '')
-        .addClass('hidden');
       self.status
         .removeClass('error')
         .text('Sent!')
@@ -117,14 +113,13 @@ define(['jquery', 'settings'],
 
       settings.statusTimer(self.status);
 
-      self
-        .form
+      self.form
         .addClass('hidden');
       body.removeClass('fixed');
       body.find('.overlay').fadeOut();
       self.clear();
 
-    }).error(function (data) {
+    }).fail(function (data) {
       body.find('.overlay').fadeOut();
       self.status
         .addClass('error')
@@ -190,7 +185,7 @@ define(['jquery', 'settings'],
         body.find('#messages-inbox').click();
       }, seconds * 1000);
 
-    }).error(function (data) {
+    }).fail(function (data) {
       body.find('.overlay').fadeOut();
     });
   };
@@ -204,7 +199,8 @@ define(['jquery', 'settings'],
     this.messageDetail.find('p span, p time, .countdown').empty();
     this.messageDetail.removeAttr('data-email');
     this.messageDetail.addClass('hidden');
-    img.attr('src', '');
+    img.attr('src', '')
+      .addClass('hidden');
 
     if (this.currentView) {
       this.currentView.remove();

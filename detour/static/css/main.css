@@ -566,7 +566,7 @@ button {
     position: fixed;
     bottom: 5px;
     width: 310px;
-    z-index: 3;
+    z-index: 5;
 }
 
 #status.on {

@@ -1,5 +1,5 @@
-define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', 'templates'],
-  function($, User, Message, settings, localSettings, nunjucks) {
+define(['jquery', 'authenticate', 'user', 'message', 'settings', 'local_settings', 'nunjucks', 'templates'],
+  function($, authenticate, User, Message, settings, localSettings, nunjucks) {
 
   'use strict';
 
@@ -39,58 +39,6 @@ define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', '
       nunjucks.env.getTemplate('landing.html').render()
     );
   }
-
-  var currentUser = localStorage.getItem('personaEmail');
-
-  navigator.id.watch({
-    loggedInUser: currentUser,
-    onlogin: function (assertion) {
-      body.find('.overlay').fadeIn();
-      $.ajax({
-        type: 'POST',
-        url: '/authenticate',
-        data: { assertion: assertion },
-        cache: false,
-        success: function (res, status, xhr) {
-          localStorage.setItem('personaEmail', res.email);
-          body.find('#inner-wrapper').html(
-            nunjucks.env.getTemplate('dashboard.html').render()
-          );
-          message.getAll(nunjucks);
-        },
-        error: function(res, status, xhr) {
-          self.status
-            .addClass('error')
-            .text('There was an error logging in')
-            .addClass('on');
-
-          settings.statusTimer(self.status);
-        }
-      });
-    },
-    onlogout: function() {
-      $.ajax({
-        url: '/logout',
-        type: 'POST',
-        cache: false,
-        success: function(res, status, xhr) {
-          localStorage.removeItem('personaEmail');
-          window.location.reload();
-        },
-        error: function(res, status, xhr) {
-          console.log('logout failure ', res);
-        }
-      });
-    }
-  });
-
-  // for now ... O_O
-  /*
-  var isInvalidFileInput = function () {
-    return nav.match(/Mobile/i) && ((nav.match(/Firefox/i) &&
-      nav.match(/Mobile/i) && !nav.match(/Android/i)));
-  };
-  */
 
   body.on('keyup', 'textarea', function (ev) {
     checkCharLimit($(this).val());
@@ -250,12 +198,6 @@ define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', '
     }
   });
 
-  /*
-  if (isInvalidFileInput()) {
-    body.addClass('file-disabled');
-  }
-  */
-
   body.on('change', 'input[type="file"]', function (ev) {
     var img = $('#preview-img');
     var messageForm = $('#message-form');
@@ -269,12 +211,6 @@ define(['jquery', 'user', 'message', 'settings', 'local_settings', 'nunjucks', '
 
       fileReader.onload = function (evt) {
         img[0].onload = function () {
-          messageForm
-            .find('#image-width')
-            .val(img.width());
-          messageForm
-            .find('#image-height')
-            .val(img.height());
           img.removeClass('hidden');
         };
 
