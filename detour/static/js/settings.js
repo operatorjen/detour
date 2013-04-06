@@ -13,7 +13,7 @@ define(['jquery'],
         body.removeClass('fixed');
         body.find('.overlay').fadeOut();
       }
-    }, 2200); // milliseconds
+    }, 200); // milliseconds
   };
 
   return {

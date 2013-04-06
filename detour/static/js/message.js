@@ -73,9 +73,10 @@ define(['jquery', 'settings'],
         .text(JSON.parse(data.responseText).meta.message)
         .addClass('on');
 
-      settings.statusTimer(self.status);
-      body.removeClass('fixed');
-      body.find('.overlay').fadeOut();
+      settings.statusTimer(self.status, function () {
+        body.removeClass('fixed');
+        body.find('.overlay').fadeOut();
+      });
     });
   };
 
@@ -103,12 +104,6 @@ define(['jquery', 'settings'],
 
     }).done(function (data) {
 
-      self.form
-        .find('#current-contact, #contacts')
-        .empty();
-      self.form
-        .find('input[type="file"], input[name="email"], textarea, input[type="text"]')
-        .val('');
       self.status
         .removeClass('error')
         .text('Sent!')
@@ -116,19 +111,26 @@ define(['jquery', 'settings'],
 
       settings.statusTimer(self.status, function () {
         self.form
+          .find('#current-contact, #contacts')
+          .empty();
+        self.form
+          .find('input[type="file"], input[name="email"], textarea, input[type="text"]')
+          .val('');
+        self.form
           .addClass('hidden');
         body.removeClass('fixed');
         body.find('.overlay').fadeOut();
       });
 
     }).fail(function (data) {
-      body.find('.overlay').fadeOut();
       self.status
         .addClass('error')
         .text(JSON.parse(data.responseText).meta.message)
         .addClass('on');
 
-      settings.statusTimer(self.status);
+      settings.statusTimer(self.status, function () {
+        body.find('.overlay').fadeOut();
+      });
     });
   };
 
