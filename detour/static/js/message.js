@@ -103,7 +103,6 @@ define(['jquery', 'settings'],
 
     }).done(function (data) {
 
-      self.clear();
       self.form
         .find('#current-contact, #contacts')
         .empty();
