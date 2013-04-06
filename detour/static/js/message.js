@@ -96,7 +96,10 @@ define(['jquery', 'settings'],
     $.ajax({
       url: '/' + API_VERSION + '/message?ts=' + ts,
       data: fd,
-      type: 'POST'
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      cache: false
 
     }).done(function (data) {
 
