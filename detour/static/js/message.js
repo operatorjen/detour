@@ -109,13 +109,14 @@ define(['jquery', 'settings'],
         .text('Sent!')
         .addClass('on');
 
+      self.form
+        .find('#current-contact, #contacts')
+        .empty();
+      self.form
+        .find('input[type="file"], input[name="email"], textarea, input[type="text"]')
+        .val('');
+
       settings.statusTimer(self.status, function () {
-        self.form
-          .find('#current-contact, #contacts')
-          .empty();
-        self.form
-          .find('input[type="file"], input[name="email"], textarea, input[type="text"]')
-          .val('');
         self.form
           .addClass('hidden');
         body.removeClass('fixed');
