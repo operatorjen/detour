@@ -30,6 +30,7 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
             .addClass('on');
 
           settings.statusTimer(self.status);
+          navigator.id.logout();
         }
       });
     },
@@ -44,6 +45,7 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
         },
         error: function(res, status, xhr) {
           console.log('logout failure ', res);
+          navigator.id.logout();
         }
       });
     }
