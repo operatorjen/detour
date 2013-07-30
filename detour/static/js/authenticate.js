@@ -30,22 +30,20 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
             .addClass('on');
 
           settings.statusTimer(self.status);
-          navigator.id.logout();
         }
       });
     },
     onlogout: function() {
+      localStorage.removeItem('personaEmail');
       $.ajax({
         url: '/logout',
         type: 'POST',
         cache: false,
         success: function(res, status, xhr) {
-          localStorage.removeItem('personaEmail');
           window.location.reload();
         },
         error: function(res, status, xhr) {
           console.log('logout failure ', res);
-          navigator.id.logout();
         }
       });
     }
