@@ -5,6 +5,11 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
   var body = $('body');
   var currentUser = localStorage.getItem('personaEmail');
 
+  if (currentUser === null) {
+    currentUser = undefined;
+    localStorage.removeItem('personaEmail');
+  }
+
   var message = new Message();
 
   navigator.id.watch({
