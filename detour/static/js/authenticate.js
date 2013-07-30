@@ -3,12 +3,9 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
   'use strict';
 
   var body = $('body');
-  var currentUser = localStorage.getItem('personaEmail');
+  var currentUser = localStorage.getItem('personaEmail') || undefined;
 
-  if (currentUser === null) {
-    currentUser = undefined;
-    localStorage.removeItem('personaEmail');
-  }
+  localStorage.removeItem('personaEmail');
 
   var message = new Message();
 
@@ -40,12 +37,15 @@ define(['jquery', 'message', 'settings', 'nunjucks', 'templates'],
     },
     onlogout: function() {
       localStorage.removeItem('personaEmail');
+      currentUser = undefined;
       $.ajax({
         url: '/logout',
         type: 'POST',
         cache: false,
         success: function(res, status, xhr) {
-          window.location.reload();
+          body.find('#inner-wrapper').html(
+            nunjucks.env.getTemplate('landing.html').render()
+          );
         },
         error: function(res, status, xhr) {
           console.log('logout failure ', res);
