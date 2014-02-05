@@ -180,11 +180,25 @@ def post_message():
     # Handle photo.
     b64photo = ''
     if (photo and '.' in photo.filename):
-        ext = photo.filename.rsplit('.', 1)[1]
-        if ext.lower() in ALLOWED_EXTENSIONS:
+        ext = photo.filename.rsplit('.', 1)[1].lower()
+        if ext in ALLOWED_EXTENSIONS:
             path = tempfile.mkstemp()[1]
             photo.save(path)
             img = Image.open(path)
+            x, y = img.size
+
+            # Test if image is gif and is animated gif. If it's small enough,
+            # don't bother trying to scale it.
+            if ext == 'gif':
+                try:
+                    img.seek(img.tell() + 1)
+                except EOFError:
+                    # It's an animated gif b/c we could seek to the 2nd frame.
+                    if x > IMAGE_WIDTH or y > IMAGE_WIDTH:
+                        return api_response(
+                            None, 400, 'Invalid image format: animated gif')
+                    else:
+                        pass
             # Get orientation.
             if hasattr(img, '_getexif') and img._getexif():
                 exif = dict((TAGS.get(k, k), v)
@@ -210,7 +224,6 @@ def post_message():
                     elif orientation == 8:  # Rotated 90 CCW.
                         img = img.transpose(Image.ROTATE_90)
             # Find ratio to scale to IMAGE_WIDTH and keep aspect ratio.
-            x, y = img.size
             ratio = float(IMAGE_WIDTH) / x
             img = img.resize((int(x * ratio), int(y * ratio)), Image.ANTIALIAS)
             buf = StringIO.StringIO()
